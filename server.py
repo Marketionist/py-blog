@@ -25,6 +25,10 @@ app.config.update(
 def page_not_found (error):
    return render_template('404.html', title='404'), 404
 
+@app.route('/robots.txt')
+def show_robots_txt ():
+    return render_template('robots.txt', domain=domain_name)
+
 @app.route('/')
 def my_home ():
     try:
