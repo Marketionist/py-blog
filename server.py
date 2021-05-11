@@ -14,6 +14,13 @@ from flask import Flask, render_template, url_for, request, redirect, send_from_
 
 app = Flask(__name__)
 
+domain_name = os.getenv('SERVER_NAME')
+
+app.config.update(
+    SERVER_NAME=domain_name,
+    PREFERRED_URL_SCHEME='https',
+)
+
 @app.errorhandler(404)
 def page_not_found (error):
    return render_template('404.html', title='404'), 404
@@ -38,7 +45,11 @@ def my_home ():
 @app.route('/<string:page_name>.html')
 def show_html_page (page_name):
     if page_name != 'index':
-        return render_template(f'{page_name}.html')
+        try:
+            return render_template(f'{page_name}.html')
+        except Exception as err:
+            print(f'File doesn\'t exist - {err}')
+            return render_template('404.html', title='404'), 404
     else:
         return render_template('404.html', title='404'), 404
 
