@@ -1,0 +1,6 @@
+User-agent: *
+Disallow: /
+Disallow: /?s=*
+
+Host: {{ domain |safe }}
+Sitemap: https://{{ domain |safe }}/sitemap.xml
