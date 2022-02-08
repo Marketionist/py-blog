@@ -10,6 +10,7 @@ import os
 import csv
 import markdown
 import markdown.extensions.fenced_code
+import datetime
 from flask import Flask, render_template, url_for, request, redirect, send_from_directory
 
 app = Flask(__name__)
@@ -64,14 +65,15 @@ def show_post_html_page (category_name, page_name):
             'posts', category_name, f'{page_name}.md'
         ), mode='r') as my_file:
             text = my_file.read()
-            text_split_in_4 = text.split('\n', 3)
+            text_split_in_10 = text.split('\n', 9)
 
-            post_description = text_split_in_4[0]
-            post_keywords = text_split_in_4[1]
-            post_title = text_split_in_4[2].replace('# ', '')
+            post_title = text_split_in_10[1].replace('title: ', '')
+            post_description = text_split_in_10[2].replace('description: ', '')
+            post_keywords = text_split_in_10[3].replace('keywords: ', '')
+            post_date = text_split_in_10[6].replace('date: ', '')
 
             post_html_content = markdown.markdown(
-                text_split_in_4[2] + text_split_in_4[3],
+                text_split_in_10[9],
                 extensions=['fenced_code']
             )
     except FileNotFoundError as err:
@@ -91,6 +93,11 @@ def show_post_html_page (category_name, page_name):
         ),
         content=post_html_content
     )
+
+@app.context_processor
+def inject_current_time():
+    return { 'current': datetime.datetime.today() }
+
 
 if __name__ == "__main__":
     app.run()
