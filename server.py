@@ -16,12 +16,77 @@ from flask import Flask, render_template, url_for, request, redirect, send_from_
 app = Flask(__name__)
 
 domain_name = os.getenv('SERVER_NAME')
+url_scheme = 'https'
 
 app.config.update(
     SERVER_NAME=domain_name,
-    PREFERRED_URL_SCHEME='https',
+    PREFERRED_URL_SCHEME=url_scheme,
 )
 
+posts = []
+
+def parse_posts():
+    for root, dirs, files in os.walk('posts'):
+        for file_name in files:
+            if file_name.endswith('.md'):
+                try:
+                    with open(os.path.join(root, file_name), mode='r') as my_file:
+                        text = my_file.read()
+                        text_split_in_10 = text.split('\n', 9)
+
+                        post_title = text_split_in_10[1].replace('title: ', '')
+                        post_description = text_split_in_10[2].replace('description: ', '')
+                        post_keywords = text_split_in_10[3].replace('keywords: ', '')
+                        # Considering date is in yyyy-mm-dd hh:mm:ss format
+                        post_date = datetime.datetime.strptime(
+                            text_split_in_10[6].replace('date: ', ''),
+                            '%Y-%m-%d %H:%M:%S'
+                        )
+                        post_html_content = markdown.markdown(
+                            text_split_in_10[9],
+                            extensions=['fenced_code']
+                        )
+                except FileNotFoundError as err:
+                    print(f'File doesn\'t exist - {err}')
+                    raise err
+                except IOError as err:
+                    print(f'Input/Output error - {err}')
+                    raise err
+
+                category_name = root.replace('posts/', '')
+                domain_url = url_scheme + '://' + (domain_name or '127.0.0.1:5000')
+
+                post = {
+                    'category_name': category_name,
+                    'page_name': file_name.replace('.md', ''),
+                    'url': os.path.join(domain_url, category_name, file_name).replace('.md', '.html'),
+                    'title': post_title,
+                    'description': post_description,
+                    'keywords': post_keywords,
+                    'date': post_date,
+                    'html_content': post_html_content,
+                    'image': os.path.join(
+                        'static', 'images', category_name, file_name.replace('.md', '.jpg')
+                    ),
+                }
+                if not post in posts and '/' in post['url']:
+                    posts.append(post)
+    return posts
+
+parse_posts()
+
+# Context processors to inject new variables automatically into the context of
+# a template
+# https://flask.palletsprojects.com/en/1.0.x/templating/#context-processors
+@app.context_processor
+def inject_current_time():
+    return { 'current': datetime.datetime.today() }
+
+@app.context_processor
+def inject_posts_array():
+    return { 'posts_array': sorted(posts, key=lambda x: x['date'], reverse=True) }
+
+# Routes
 @app.errorhandler(404)
 def page_not_found (error):
    return render_template('404.html', title='404'), 404
@@ -33,7 +98,7 @@ def show_robots_txt ():
 @app.route('/')
 def my_home ():
     try:
-        with open(os.path.join('posts', 'post-1.md'), mode='r') as my_file:
+        with open(os.path.join('posts', 'main-page.md'), mode='r') as my_file:
             text = my_file.read()
             post_html_content = markdown.markdown(
                 text, extensions=['fenced_code']
@@ -60,86 +125,24 @@ def show_html_page (page_name):
 
 @app.route('/<string:category_name>/<string:page_name>.html')
 def show_post_html_page (category_name, page_name):
+    post_path = os.path.join(category_name, f'{page_name}.html')
+
     try:
-        with open(os.path.join(
-            'posts', category_name, f'{page_name}.md'
-        ), mode='r') as my_file:
-            text = my_file.read()
-            text_split_in_10 = text.split('\n', 9)
+        # Filter all posts that have post_path in url and return first of those
+        matching_post = list(filter(lambda x: post_path in x['url'], posts))[0]
 
-            post_title = text_split_in_10[1].replace('title: ', '')
-            post_description = text_split_in_10[2].replace('description: ', '')
-            post_keywords = text_split_in_10[3].replace('keywords: ', '')
-            post_date = text_split_in_10[6].replace('date: ', '')
-
-            post_html_content = markdown.markdown(
-                text_split_in_10[9],
-                extensions=['fenced_code']
+        if matching_post:
+            return render_template(
+                'post.html',
+                title=matching_post['title'],
+                description=matching_post['description'],
+                keywords=matching_post['keywords'],
+                image=matching_post['image'],
+                content=matching_post['html_content']
             )
-    except FileNotFoundError as err:
-        print(f'File doesn\'t exist - {err}')
+    except IndexError as err:
+        print(f'File doesn\'t exist')
         return render_template('404.html'), 404
-    except IOError as err:
-        print(f'Input/Output error - {err}')
-        raise err
-
-    return render_template(
-        'post.html',
-        title=post_title,
-        description=post_description,
-        keywords=post_keywords,
-        image=os.path.join(
-            '../', 'static', 'images', category_name, f'{page_name}.jpg'
-        ),
-        content=post_html_content
-    )
-
-@app.context_processor
-def inject_current_time():
-    return { 'current': datetime.datetime.today() }
-
-@app.context_processor
-def inject_posts_array():
-    posts = []
-
-    for root, dirs, files in os.walk('posts'):
-        for file_name in files:
-            if file_name.endswith('.md'):
-                try:
-                    with open(os.path.join(root, file_name), mode='r') as my_file:
-                        text = my_file.read()
-                        text_split_in_10 = text.split('\n', 9)
-
-                        post_title = text_split_in_10[1].replace('title: ', '')
-                        post_description = text_split_in_10[2].replace('description: ', '')
-                        post_keywords = text_split_in_10[3].replace('keywords: ', '')
-                        # Considering date is in yyyy-mm-dd hh:mm:ss format
-                        post_date = datetime.datetime.strptime(
-                            text_split_in_10[6].replace('date: ', ''),
-                            '%Y-%m-%d %H:%M:%S'
-                        )
-                except FileNotFoundError as err:
-                    print(f'File doesn\'t exist - {err}')
-                    raise err
-                except IOError as err:
-                    print(f'Input/Output error - {err}')
-                    raise err
-
-                category_name = root.replace('posts', '')
-
-                post = {
-                    'url': os.path.join(category_name, file_name).replace('.md', '.html'),
-                    'title': post_title,
-                    'description': post_description,
-                    'date': post_date,
-                    'image': os.path.join(
-                        '../', 'static', 'images', category_name, file_name.replace('.md', '.jpg')
-                    ),
-                }
-                if not post in posts and '/' in post['url']:
-                    posts.append(post)
-
-    return { 'posts_array': sorted(posts, key=lambda x: x['date'], reverse=True) }
 
 
 if __name__ == "__main__":
