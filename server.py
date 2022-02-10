@@ -98,6 +98,49 @@ def show_post_html_page (category_name, page_name):
 def inject_current_time():
     return { 'current': datetime.datetime.today() }
 
+@app.context_processor
+def inject_posts_array():
+    posts = []
+
+    for root, dirs, files in os.walk('posts'):
+        for file_name in files:
+            if file_name.endswith('.md'):
+                try:
+                    with open(os.path.join(root, file_name), mode='r') as my_file:
+                        text = my_file.read()
+                        text_split_in_10 = text.split('\n', 9)
+
+                        post_title = text_split_in_10[1].replace('title: ', '')
+                        post_description = text_split_in_10[2].replace('description: ', '')
+                        post_keywords = text_split_in_10[3].replace('keywords: ', '')
+                        # Considering date is in yyyy-mm-dd hh:mm:ss format
+                        post_date = datetime.datetime.strptime(
+                            text_split_in_10[6].replace('date: ', ''),
+                            '%Y-%m-%d %H:%M:%S'
+                        )
+                except FileNotFoundError as err:
+                    print(f'File doesn\'t exist - {err}')
+                    raise err
+                except IOError as err:
+                    print(f'Input/Output error - {err}')
+                    raise err
+
+                category_name = root.replace('posts', '')
+
+                post = {
+                    'url': os.path.join(category_name, file_name).replace('.md', '.html'),
+                    'title': post_title,
+                    'description': post_description,
+                    'date': post_date,
+                    'image': os.path.join(
+                        '../', 'static', 'images', category_name, file_name.replace('.md', '.jpg')
+                    ),
+                }
+                if not post in posts and '/' in post['url']:
+                    posts.append(post)
+
+    return { 'posts_array': sorted(posts, key=lambda x: x['date'], reverse=True) }
+
 
 if __name__ == "__main__":
     app.run()
