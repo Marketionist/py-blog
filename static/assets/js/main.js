@@ -120,7 +120,7 @@
         $sidebar.addClass('inactive');
 
         // Redirect to href
-        setTimeout(function() {
+        setTimeout(function () {
 
             if (target == '_blank')
             window.open(href);
