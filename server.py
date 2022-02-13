@@ -39,7 +39,7 @@ def parse_posts():
                         post_keywords = text_split_in_10[3].replace('keywords: ', '')
                         # Considering date is in yyyy-mm-dd hh:mm:ss format
                         post_date = datetime.datetime.strptime(
-                            text_split_in_10[6].replace('date: ', ''),
+                            text_split_in_10[5].replace('date: ', ''),
                             '%Y-%m-%d %H:%M:%S'
                         )
                         post_html_content = markdown.markdown(
@@ -66,7 +66,7 @@ def parse_posts():
                     'date': post_date,
                     'html_content': post_html_content,
                     'image': os.path.join(
-                        'static', 'images', category_name, file_name.replace('.md', '.jpg')
+                        '../', 'static', 'images', category_name, file_name.replace('.md', '.jpg')
                     ),
                 }
                 if not post in posts and '/' in post['url']:
