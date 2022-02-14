@@ -14,7 +14,7 @@ import markdown.extensions.fenced_code
 import datetime
 from flask import Flask, render_template, url_for, request, redirect, send_from_directory
 
-sys.path.append(os.path.abspath('/utils'))
+sys.path.append(os.path.abspath('utils'))
 from utils import parser
 
 app = Flask(__name__)
@@ -48,6 +48,10 @@ def page_not_found (error):
 @app.route('/robots.txt')
 def show_robots_txt ():
     return render_template('robots.txt', domain=domain_name)
+
+@app.route('/sitemap.xml')
+def show_sitemap_xml ():
+    return render_template('sitemap.xml', domain=domain_name)
 
 @app.route('/')
 def my_home ():
