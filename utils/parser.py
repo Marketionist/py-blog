@@ -13,9 +13,10 @@ def parse_posts():
 
     for root, dirs, files in os.walk('posts'):
         for file_name in files:
-            if file_name.endswith('.md'):
+            if file_name.endswith('.md') and not 'main-page' in file_name:
                 try:
-                    with open(os.path.join(root, file_name), mode='r') as my_file:
+                    file_path = os.path.join(root, file_name)
+                    with open(file_path, mode='r') as my_file:
                         text = my_file.read()
                         text_split_in_10 = text.split('\n', 9)
 
@@ -32,11 +33,11 @@ def parse_posts():
                             extensions=['fenced_code']
                         )
                 except FileNotFoundError as err:
-                    print(f'File doesn\'t exist - {err}')
-                    raise err
+                    raise Exception(f'File doesn\'t exist - {err}') from err
                 except IOError as err:
-                    print(f'Input/Output error - {err}')
-                    raise err
+                    raise Exception(f'Input/Output error - {err}') from err
+                except ValueError as err:
+                    raise Exception(f'Something wrong with the top section paramters of {file_path} - {err}') from err
 
                 category_name = root.replace('posts/', '')
                 domain_url = url_scheme + '://' + (domain_name or '127.0.0.1:5000')
@@ -55,6 +56,6 @@ def parse_posts():
                         '../', 'static', 'images', category_name, file_name.replace('.md', '.jpg')
                     ),
                 }
-                if not post in posts and not 'main-page' in post['url']:
+                if not post in posts:
                     posts.append(post)
     return posts
