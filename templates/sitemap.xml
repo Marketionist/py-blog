@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    <url>
+        <loc>https://{{ domain or '127.0.0.1:5000' |safe }}/</loc>
+    </url>{% for index in range(posts_array |length) %}
+    <url>
+        <loc>{{ posts_array[index].url }}</loc>
+        <lastmod>{{ posts_array[index].last_modified }}</lastmod>
+        <image:image>
+            <image:loc>https://{{ posts_array[index].image.replace('..', domain or '127.0.0.1:5000') }}</image:loc>
+        </image:image>
+    </url>{% endfor %}
+</urlset>
