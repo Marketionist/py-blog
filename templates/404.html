@@ -1,0 +1,28 @@
+{% extends 'base-post.html' %}
+
+{% block title %}404 - Page Not Found{% endblock %}
+{% block description %}Oh no, the page's missing!{% endblock %}
+{% block keywords %}404, page not found, page missing{% endblock %}
+
+
+{% block content %}
+  
+    <h1>Not all who wander are lost...</h1>
+    <p>But this particular page is not here anymore.
+        You can go to the <a href="{{ url_for('my_home', _external=True) }}">homepage</a> or
+        perhaps consider reading our top 10 articles:
+        <ul>
+            <li><a href="{{ url_for('show_post_html_page', category_name=posts_array[0].category_name, page_name=posts_array[0].page_name, _external=True) }}">{{ posts_array[0].title }}</a></li>
+            <li><a href="{{ url_for('show_post_html_page', category_name=posts_array[1].category_name, page_name=posts_array[1].page_name, _external=True) }}">{{ posts_array[1].title }}</a></li>
+            <li><a href="{{ url_for('show_post_html_page', category_name=posts_array[2].category_name, page_name=posts_array[2].page_name, _external=True) }}">{{ posts_array[2].title }}</a></li>
+            <li><a href="{{ url_for('show_post_html_page', category_name=posts_array[3].category_name, page_name=posts_array[3].page_name, _external=True) }}">{{ posts_array[3].title }}</a></li>
+            <li><a href="{{ url_for('show_post_html_page', category_name=posts_array[4].category_name, page_name=posts_array[4].page_name, _external=True) }}">{{ posts_array[4].title }}</a></li>
+            <li><a href="{{ url_for('show_post_html_page', category_name=posts_array[5].category_name, page_name=posts_array[5].page_name, _external=True) }}">{{ posts_array[5].title }}</a></li>
+            <li><a href="{{ url_for('show_post_html_page', category_name=posts_array[6].category_name, page_name=posts_array[6].page_name, _external=True) }}">{{ posts_array[6].title }}</a></li>
+            <li><a href="{{ url_for('show_post_html_page', category_name=posts_array[7].category_name, page_name=posts_array[7].page_name, _external=True) }}">{{ posts_array[7].title }}</a></li>
+            <li><a href="{{ url_for('show_post_html_page', category_name=posts_array[8].category_name, page_name=posts_array[8].page_name, _external=True) }}">{{ posts_array[8].title }}</a></li>
+            <li><a href="{{ url_for('show_post_html_page', category_name=posts_array[9].category_name, page_name=posts_array[9].page_name, _external=True) }}">{{ posts_array[9].title }}</a></li>
+        </ul>
+    </p>
+ 
+{% endblock %}

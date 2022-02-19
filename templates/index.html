@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+
+{% block title %}Stijit - engineering blog about software testing and web technologies{% endblock %}
+{% block description %}Test automation and QA in simple words. Software testing information just in time. Practical examples of javascript code and some web marketing.{% endblock %}
+{% block keywords %}testing, test automation, qa automation, web testing, software testing, js code examples, javascript code examples, stijit, stijit com, stijitcom, web marketing{% endblock %}
+
+{% block content %}
+
+    <!-- Header -->
+    <!-- <header id="header">
+        <div class="logo">
+            Software Testing Information Just In Time
+        </div>
+    </header> -->
+
+    <!-- Section -->
+    <section>
+        <div class="posts">
+            {% for index in range(10) %}
+                <article>
+                    <!-- <img src="./static/images/pic01.jpg" alt="" /> -->
+                    <a href="{{ url_for('show_post_html_page', category_name=posts_array[index].category_name, page_name=posts_array[index].page_name, _external=True) }}" class="image">
+                        <img src="{{ posts_array[index].image }}" alt="" />
+                    </a>
+                    <h4>{{ posts_array[index].title }}</h4>
+                    <ul class="actions">
+                        <li><a href="{{ url_for('show_post_html_page', category_name=posts_array[index].category_name, page_name=posts_array[index].page_name, _external=True) }}" class="button">More</a></li>
+                    </ul>
+                </article>
+            {% endfor %}
+        </div>
+    </section>
+
+    <!-- Banner -->
+    <section id="banner">
+        <div class="content">
+            {{ content |safe }}
+            <ul class="actions">
+                <li><a href="{{ url_for('show_html_page', page_name='about', _external=True) }}" class="button big">Learn More</a></li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- Section -->
+    <section>
+        <header class="major">
+            <h2>Some cool things that you can find here</h2>
+        </header>
+        <div class="features">
+            <article>
+                <span class="icon fa-gem"></span>
+                <div class="content">
+                    <h3>Test Automation</h3>
+                    <p>Tools, frameworks and techniques to create and maintain <a href="{{ url_for('show_html_page', page_name='qa-test-automation', _external=True) }}">automated tests</a>.</p>
+                </div>
+            </article>
+            <article>
+                <span class="icon solid fa-paper-plane"></span>
+                <div class="content">
+                    <h3>JavaScript</h3>
+                    <p>A set of <a href="{{ url_for('show_html_page', page_name='javascript', _external=True) }}">js code examples</a>.</p>
+                </div>
+            </article>
+            <article>
+                <span class="icon solid fa-rocket"></span>
+                <div class="content">
+                    <h3>Engineering</h3>
+                    <p>How to setup, configure and evolve <a href="{{ url_for('show_html_page', page_name='engineering', _external=True) }}">engineering infrastructure</a>.</p>
+                </div>
+            </article>
+            <article>
+                <span class="icon solid fa-signal"></span>
+                <div class="content">
+                    <h3>SEO</h3>
+                    <p>Some advices on how to perform <a href="{{ url_for('show_html_page', page_name='seo', _external=True) }}">search engine optimization</a>.</p>
+                </div>
+            </article>
+        </div>
+    </section>
+
+{% endblock %}
