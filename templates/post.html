@@ -1,0 +1,20 @@
+{% extends 'base-post.html' %}
+
+{% block title %}{{ title |safe }}{% endblock %}
+{% block description %}{{ description |safe }}{% endblock %}
+{% block keywords %}{{ keywords |safe }}{% endblock %}
+
+
+{% block content %}
+
+    <section>
+        <span class="image object">
+            <img src="{{ image |safe }}" alt="{{ title |safe }}" />
+        </span>
+        <h1>{{ title |safe }}</h1>
+        <div class="content">
+            {{ content |safe }}
+        </div>
+    </section>
+
+{% endblock %}
