@@ -1,0 +1,40 @@
+
+# Add www to any URLs that do not have them:
+RewriteEngine on
+RewriteCond %{HTTP_HOST} !^www\.
+RewriteRule ^(.*)$ https://www.%{HTTP_HOST}/$1 [R=301,L]
+
+# Redirect 404
+ErrorDocument 404 /404.html
+
+# Redirect old links to new pages
+Redirect 301 /web-tips/dry-kiss-solid-yagni /engineering/dry-kiss-solid-yagni.html
+Redirect 301 /tests-qa-automation/install-old-version-google-chrome-mac /qa-test-automation/install-old-version-google-chrome-mac.html
+Redirect 301 /web-tips/macbook-serial-number-meaning /web-tips/macbook-serial-number-meaning.html
+Redirect 301 /git/push-git-commit /engineering/push-git-commit.html
+Redirect 301 /web-analytics/utm-url-builder /analytics/utm-url-builder.html
+Redirect 301 /web-tips/months-year-english-russian-ukrainian /web-tips/months-year-english-russian-ukrainian.html
+Redirect 301 /html-css/30-css-selektorov-selectors /qa-test-automation/main-css-selector-types.html
+Redirect 301 /javascript/delegation /javascript/delegation.html
+Redirect 301 /html-css/css-reset-erika-meyera /engineering/css-reset-erika-meyera.html
+Redirect 301 /sem-seo /seo.html
+Redirect 301 /web-tips/youtube-video-channel /seo/youtube-video-channel.html
+Redirect 301 /javascript/garmoshka-js /javascript/accordion-garmoshka-js.html
+Redirect 301 /web-tips/install-python-3-mac-os-x /engineering/install-python-3-mac-os-x.html
+Redirect 301 /javascript/fields-validation /javascript/form-input-fields-validation.html
+Redirect 301 /git/files-commands /engineering/git-files-commands.html
+Redirect 301 /javascript/target-blank-link-window /javascript/target-blank-link-window.html
+Redirect 301 /html-css/html5shiv-js-ie-support /javascript/html5shiv-js-ie-support.html
+Redirect 301 /web-tips/goodbye-farewell-letters /web-tips/goodbye-farewell-letters.html
+Redirect 301 /javascript/regexp-js-google-analytics /javascript/regexp-js-google-analytics.html
+Redirect 301 /emails-marketing/chastota-email-rassylku /seo/how-often-send-emails.html
+Redirect 301 /web-analytics/create-event-tracking-google-analytics /analytics/create-event-tracking-google-analytics.html
+Redirect 301 /sem-seo/get-twitter-followers /seo/get-twitter-followers.html
+Redirect 301 /javascript/access-get-elements /javascript/access-query-get-elements-js.html
+Redirect 301 /web-tips/check-used-macbook-before-buying /web-tips/check-used-macbook-before-buying.html
+Redirect 301 /git/show-git-branch-colours-terminal-mac /engineering/show-git-branch-colours-terminal-mac.html
+Redirect 301 /web-tips/kodirovka-sublime-text /engineering/sublime-text-encoding.html
+Redirect 301 /web-analytics /analytics.html
+Redirect 301 /sem-seo/seo-manager-17 /seo/seo-manager.html
+Redirect 301 /javascript/podklyuchit-biblioteku-jquery /javascript/include-import-jquery-library.html
+Redirect 301 /html-css/sass-installation-compile-css /engineering/sass-installation-compile-css.html
