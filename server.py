@@ -72,18 +72,20 @@ def my_home ():
 
 @app.route('/<string:page_name>.html')
 def show_html_page (page_name):
-    if page_name != 'index':
+    if page_name != 'main-page':
         try:
             return render_template(f'{page_name}.html')
         except Exception as err:
-            print(f'File doesn\'t exist - {err}')
-            return render_template('404.html', title='404'), 404
+            print(f'File {page_name} doesn\'t exist - {err}')
+            return render_template('404.html'), 404
     else:
-        return render_template('404.html', title='404'), 404
+        print(f'File {page_name} doesn\'t exist')
+        return render_template('404.html'), 404
 
 @app.route('/<string:category_name>/<string:page_name>.html')
 def show_post_html_page (category_name, page_name):
     post_path = os.path.join(category_name, f'{page_name}.html')
+    post_md_path = post_path.replace('.html', '.md')
 
     try:
         # Filter all posts that have post_path in url and return first of those
@@ -99,7 +101,7 @@ def show_post_html_page (category_name, page_name):
                 content=matching_post['html_content']
             )
     except IndexError as err:
-        print(f'File doesn\'t exist')
+        print(f'File {post_md_path} doesn\'t exist - {err}')
         return render_template('404.html'), 404
 
 
