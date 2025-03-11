@@ -13,7 +13,7 @@ def parse_posts():
 
     for root, dirs, files in os.walk('posts'):
         for file_name in files:
-            if file_name.endswith('.md') and not 'main-page' in file_name:
+            if file_name.endswith('.md') and not 'main-page' in file_name and not '_draft' in file_name:
                 try:
                     file_path = os.path.join(root, file_name)
                     with open(file_path, mode='r') as my_file:
