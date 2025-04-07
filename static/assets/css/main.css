@@ -33,13 +33,35 @@ ol, ul {
   list-style: none;
 }
 
-blockquote, q {
+/* blockquote, q {
   quotes: none;
 }
   blockquote:before, blockquote:after, q:before, q:after {
     content: '';
     content: none;
+  } */
+blockquote, q {
+  position: relative;
+  background: #fff1d4;
+  border-radius: 0.375em;
+  margin: 0 auto;
+  quotes: "❝" "❞";
+}
+  blockquote:before, q:before {
+    position: absolute;
+    content: open-quote;
+    font-size: 4em;
+    margin-left: -0.8em;
+    margin-top: -0.8em;
   }
+  blockquote p, q p {
+    display: block;
+    text-align: left;
+  }
+
+cite {
+  font-weight: 600;
+}
 
 table {
   border-collapse: collapse;
@@ -233,7 +255,7 @@ sup {
 }
 
 blockquote {
-  border-left: solid 3px rgba(210, 215, 217, 0.75);
+  /* border-left: solid 3px rgba(210, 215, 217, 0.75); */
   font-style: italic;
   margin: 0 0 2em 0;
   padding: 0.5em 0 0.5em 2em;
