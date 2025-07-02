@@ -26,6 +26,10 @@ cd py-blog && pip install -r requirements.txt
 FLASK_APP='server.py' FLASK_ENV='development' flask run
 ```
 The server will start running on http://127.0.0.1:5000/ (Press CTRL+C to quit).
+Or if you wnat to enable auto-update mode:
+```bash
+FLASK_APP='server.py' FLASK_ENV='development' FLASK_DEBUG=1 flask run
+```
 
 ### To freeze the app
 1. Add the articles as markdown `.md` files to the `posts/{post-category}`
@@ -39,6 +43,10 @@ SERVER_NAME='yourdomain.org' python freeze.py
 ```
 All generated files will appear inside the `build` folder. Copy generated files
 to your hosting.
+4. To copy all folders and files one level up from the `build` folder:
+```bash
+cp -r build/* .
+```
 
 ## Thanks
 If this script was helpful to you, please give it a **★ Star** on
