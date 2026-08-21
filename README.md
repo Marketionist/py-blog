@@ -37,9 +37,9 @@ folder. Here is a good
 [Markdown Cheatsheet](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet).
 Corresponding URL will be generated from each article file name.
 2. Add images for each article to `static/images/{post-category}` folder.
-3. Generate the static files:
+3. Generate static files:
 ```bash
-SERVER_NAME='yourdomain.org' python freeze.py
+SERVER_NAME='www.yourdomain.org' python freeze.py
 ```
 > All generated files will appear inside the `build` folder. Copy generated
 > files to your hosting.
