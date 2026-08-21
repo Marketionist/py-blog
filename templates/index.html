@@ -23,9 +23,6 @@
                         <img src="{{ posts_array[index].image }}" alt="" />
                     </a>
                     <h4>{{ posts_array[index].title }}</h4>
-                    <ul class="actions">
-                        <li><a href="{{ url_for('show_post_html_page', category_name=posts_array[index].category_name, page_name=posts_array[index].page_name, _external=True) }}" class="button">More</a></li>
-                    </ul>
                 </article>
             {% endfor %}
         </div>
