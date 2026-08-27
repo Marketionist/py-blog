@@ -16,8 +16,8 @@
                 <article>
                     <a href="{{ url_for('show_post_html_page', category_name=post.category_name, page_name=post.page_name, _external=True) }}" class="image">
                         <img src="{{ post.image }}" alt="" />
+                        <p class="post-title">{{ post.title }}</p>
                     </a>
-                    <h4>{{ post.title }}</h4>
                 </article>
             {% endfor %}
         </div>
