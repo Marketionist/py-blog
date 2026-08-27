@@ -2335,7 +2335,21 @@ button,
     margin: 0 0 6em 6em;
     position: relative;
     width: calc(33.33333% - 6em);
+    padding: 0;
+    border-radius: 0.5em;
+    outline: 1px solid transparent;
+    outline-offset: 0px;
+    -moz-transition: box-shadow 0.2s ease-in-out, padding 0.2s ease-in-out, outline-offset 0.2s ease-in-out;
+    -webkit-transition: box-shadow 0.2s ease-in-out, padding 0.2s ease-in-out, outline-offset 0.2s ease-in-out;
+    -ms-transition: box-shadow 0.2s ease-in-out, padding 0.2s ease-in-out, outline-offset 0.2s ease-in-out;
+    transition: box-shadow 0.2s ease-in-out, padding 0.2s ease-in-out, outline-offset 0.2s ease-in-out;
   }
+    .posts article:hover {
+      box-shadow: 0 0 0 1px #0d0d0d;
+      outline: 1px solid #0d0d0d;
+      outline-offset: 5px;
+      padding: 0.75em;
+    }
     .posts article:before {
       /* background: rgba(210, 215, 217, 0.75); */
       content: '';
@@ -2367,6 +2381,13 @@ button,
         display: block;
         width: 100%;
       }
+    .posts article .post-title {
+      font-size: 1.1em;
+      font-weight: 600;
+      line-height: 1.4;
+      margin: 1.2em 0 0 0;
+      color: #3d4449;
+    }
   @media screen and (min-width: 1681px) {
     .posts article:nth-child(3n + 1):before {
       display: none;
