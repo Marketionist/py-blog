@@ -20,10 +20,15 @@ parsed_posts = parser.parse_posts()
 @freezer.register_generator
 def show_html_page (): # Endpoint defaults to the function name
     # Values dicts
-    yield {'page_name': '404'}
-    yield {'page_name': 'about'}
-    yield {'page_name': 'elements'}
-    yield {'page_name': 'generic'}
+    yield { 'page_name': '404' }
+    yield { 'page_name': 'qa-test-automation' }
+    yield { 'page_name': 'javascript' }
+    yield { 'page_name': 'engineering' }
+    yield { 'page_name': 'analytics' }
+    yield { 'page_name': 'seo' }
+    yield { 'page_name': 'web-tips' }
+    yield { 'page_name': 'about' }
+    yield { 'page_name': 'elements' }
 
 @freezer.register_generator
 def show_post_html_page (): # Endpoint defaults to the function name
